@@ -13,6 +13,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.location.Criteria;
 import android.location.GpsStatus;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Handler;
@@ -24,6 +25,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -42,7 +44,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView textView, text_lat, text_lot, text_point;
+    private TextView latlotTextView, text_lat, text_lot, text_point;
     private LocationManager location_mgr;
     private String provider, provider2;
     private Location location;
@@ -59,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     List<Map<String, Object>> list2;
     Map<String, Object> map;
     PopupMenu popupMenu;
+    private Location mlocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,15 +71,38 @@ public class MainActivity extends AppCompatActivity {
         permission();
         location_mgr = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         provider = LocationManager.GPS_PROVIDER;
+        licationlistener();
         myhandler = new myHendler();
         list2 = new ArrayList<>();
         initlistview();
+    }
+
+    private boolean licationlistener() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return true;
+        }
+        location_mgr.requestLocationUpdates(provider, 5000, 1, locationListener);
+        return false;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        location_mgr.removeUpdates(locationListener);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        licationlistener();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         stopMockGPS();
+        myhandler.removeCallbacksAndMessages(null);
+        location_mgr.removeUpdates(locationListener);
         db.close();
         dbhelper.close();
     }
@@ -90,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void findView() {
-        textView = (TextView) findViewById(R.id.textView);
+        latlotTextView = (TextView) findViewById(R.id.latlotTextView);
         text_point = (TextView) findViewById(R.id.text_point);
         text_lat = (TextView) findViewById(R.id.text_lat);
         text_lot = (TextView) findViewById(R.id.text_lot);
@@ -125,6 +151,50 @@ public class MainActivity extends AppCompatActivity {
         et_lat.setText("");
         et_lot.setText("");
     }
+
+    public void mlociationtext(View view) {
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        try {
+            mlocation = location_mgr.getLastKnownLocation(provider);
+            latlotTextView.setText(String.format("%.6f%n%.6f", mlocation.getLatitude(), mlocation.getLongitude()));
+        } catch (Exception e) {
+            Log.i("AA", e.getMessage().toString());
+            latlotTextView.setText("");
+            Toast.makeText(this, "無法獲取座標", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    LocationListener locationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+            mlocation = location;
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+            getLastLocation(provider);
+        }
+
+        private void getLastLocation(String provider) {
+            if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+            location_mgr.getLastKnownLocation(provider);
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+            getLastLocation(null);
+        }
+    };
 
     private class MyBroadcaseReceiver extends BroadcastReceiver {
 
@@ -171,13 +241,11 @@ public class MainActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 1:
-                    textView.setText(R.string.開啟);
                     text_point.setText(point());
                     text_lat.setText(String.valueOf(mock_lat));
                     text_lot.setText(String.valueOf(mock_lot));
                     break;
                 case 2:
-                    textView.setText(R.string.關閉);
                     text_point.setText("");
                     text_lat.setText("");
                     text_lot.setText("");

@@ -14,18 +14,17 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="虛儰定位:"
-            android:textColor="#00f" />
+            style="@style/AutoWrapTv"
+            android:onClick="mlociationtext"
+            android:text="我的位置:" />
 
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/latlotTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="關閉"
             android:textColor="#f00" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -62,7 +61,7 @@
             android:id="@+id/et_lat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"/>
+            android:inputType="numberDecimal" />
 
     </LinearLayout>
 
@@ -82,7 +81,7 @@
             android:id="@+id/et_lot"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"/>
+            android:inputType="numberDecimal" />
     </LinearLayout>
 
 
@@ -92,26 +91,22 @@
         android:orientation="horizontal">
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/AutoWrapbtn"
             android:onClick="start"
             android:text="start" />
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/AutoWrapbtn"
             android:onClick="stop"
             android:text="stop" />
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/AutoWrapbtn"
             android:onClick="save"
             android:text="儲存" />
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/AutoWrapbtn"
             android:onClick="clean"
             android:text="清空" />
 

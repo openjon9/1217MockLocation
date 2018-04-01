@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">假位置</string>
+    <string name="刪除">刪除</string>
+    <string name="修改">修改</string>
+    <string name="新增一筆資料">新增一筆資料</string>
+    <string name="格式錯誤不能空白">格式錯誤，不能空白</string>
+    <string name="格式錯誤請輸入數字">格式錯誤，請輸入數字</string>
+    <string name="markpoint">markpoint</string>
+    <string name="_id">_id</string>
+    <string name="lat">lat</string>
+    <string name="lot">lot</string>
+    <string name="開啟">開啟</string>
+    <string name="關閉">關閉</string>
+    <string name="確定">確定</string>
+    <string name="取消">取消</string>
+    <string name="mocklat">mocklat</string>
+    <string name="mocklot">mocklot</string>
+    <string name="mock">mock</string>
+</resources>

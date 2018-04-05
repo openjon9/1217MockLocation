@@ -135,12 +135,12 @@ public class MyService extends Service {
 
         @Override
         public void onProviderEnabled(String provider) {
-            // getLastLocation(provider);
+             getLastLocation();
         }
 
         @Override
         public void onProviderDisabled(String provider) {
-            //getLastLocation(null);
+            getLastLocation();
         }
     };
 
@@ -167,39 +167,39 @@ public class MyService extends Service {
                 case 0: //中心
                     break;
                 case 1: //上
-                    mlat -= 0.0002;
+                    mlat -= 0.00015;
                     mh.sendEmptyMessage(1);
                     break;
                 case 2:     //下
-                    mlat += 0.0002;
+                    mlat += 0.00015;
                     mh.sendEmptyMessage(1);
                     break;
                 case 3: //左
-                    mlot -= 0.0002;
+                    mlot -= 0.00015;
                     mh.sendEmptyMessage(1);
                     break;
                 case 4: //右
-                    mlot += 0.0002;
+                    mlot += 0.00015;
                     mh.sendEmptyMessage(1);
                     break;
                 case 5: //右上
-                    mlat += 0.00015;
-                    mlot -= 0.00015;
+                    mlat += 0.0001;
+                    mlot -= 0.0001;
                     mh.sendEmptyMessage(1);
                     break;
                 case 6: //右下
-                    mlat += 0.00015;
-                    mlot += 0.00015;
+                    mlat += 0.0001;
+                    mlot += 0.0001;
                     mh.sendEmptyMessage(1);
                     break;
                 case 7: //左上
-                    mlat -= 0.00015;
-                    mlot -= 0.00015;
+                    mlat -= 0.0001;
+                    mlot -= 0.0001;
                     mh.sendEmptyMessage(1);
                     break;
                 case 8: //左下
-                    mlat -= 0.00015;
-                    mlot += 0.00015;
+                    mlat -= 0.0001;
+                    mlot += 0.0001;
                     mh.sendEmptyMessage(1);
                     break;
                 default:
@@ -386,7 +386,6 @@ public class MyService extends Service {
         try {
             location_mgr = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             provider2 = LocationManager.GPS_PROVIDER;//假位置提供者  以下為假位置必要條件  缺一不可
-            location_mgr.addTestProvider(provider2, false, true, false, false, false, false, false, Criteria.POWER_LOW, Criteria.ACCURACY_FINE); //增加一個假位置的提供者
             mylocation = new Location(provider2);
             mylocation.setLatitude(mlat);
             mylocation.setLongitude(mlot);
@@ -396,6 +395,7 @@ public class MyService extends Service {
                 mylocation.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
             }
             if (!status) {
+                location_mgr.addTestProvider(provider2, false, true, false, false, false, false, false, Criteria.POWER_LOW, Criteria.ACCURACY_FINE); //增加一個假位置的提供者
                 location_mgr.setTestProviderEnabled(provider2, true); //假位置啟用
                 status = true;
             }

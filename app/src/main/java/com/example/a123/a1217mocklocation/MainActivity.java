@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         provider = LocationManager.GPS_PROVIDER;
         try {
             licationlistener();
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
 
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         try {
             licationlistener();
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
     }
@@ -252,8 +252,8 @@ public class MainActivity extends AppCompatActivity {
             switch (msg.what) {
                 case 1:
                     text_point.setText(point());
-                    text_lat.setText(String.valueOf(mock_lat));
-                    text_lot.setText(String.valueOf(mock_lot));
+                    text_lat.setText(String.format("%.6f", mock_lat));
+                    text_lot.setText(String.format("%.6f", mock_lot));
                     break;
                 case 2:
                     text_point.setText("");

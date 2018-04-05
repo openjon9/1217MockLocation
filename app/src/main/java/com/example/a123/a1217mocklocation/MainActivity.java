@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     Map<String, Object> map;
     PopupMenu popupMenu;
     private Location mlocation;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +72,12 @@ public class MainActivity extends AppCompatActivity {
         permission();
         location_mgr = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         provider = LocationManager.GPS_PROVIDER;
-        licationlistener();
+        try {
+            licationlistener();
+        }catch (Exception e){
+
+        }
+
         myhandler = new myHendler();
         list2 = new ArrayList<>();
         initlistview();
@@ -94,7 +100,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        licationlistener();
+        try {
+            licationlistener();
+        }catch (Exception e){
+
+        }
     }
 
     @Override

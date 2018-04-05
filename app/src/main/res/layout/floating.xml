@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/line2"
+        android:layout_width="150dp"
+        android:layout_height="230dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <com.example.a123.a1217mocklocation.RockerView
+
+            android:id="@+id/my_rocker"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:areaBackground="@drawable/area_bg"
+            app:rockerBackground="@drawable/rocker_bg"
+            app:rockerCallBackMode="CALL_BACK_MODE_STATE_CHANGE"
+            app:rockerScale="0.5"
+            app:rockerSpeedLevel="10" />
+
+
+    </LinearLayout>
+</LinearLayout>
